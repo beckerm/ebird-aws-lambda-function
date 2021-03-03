@@ -115,7 +115,6 @@ def get_bird_data(x_lng, x_lat, x_days, x_dist):
     return html_table
 
     
-# {"longitude": "-122.4688053", "latitude": "37.7675937", "daysback": 5, "distance": 10, "recipients": "birder@email.com"}
 
 
 def lambda_handler(event, context):
