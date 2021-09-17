@@ -59,7 +59,8 @@ def get_bird_data(x_lng, x_lat, x_days, x_dist):
     }
 
     geo_url = 'https://ebird.org/ws2.0/data/obs/geo/recent?lng=' + x_lng + '&lat=' + x_lat + '&dist=' + \
-        x_dist + '&back=' + x_days + '&maxResults=1000&fmt=json&includeProvisional=true&key=' + ebird_key
+        x_dist + '&back=' + x_days + \
+        '&maxResults=1000&fmt=json&includeProvisional=true&key=' + ebird_key
 
     try:
         data = json.load(urllib.request.urlopen(geo_url))
@@ -67,7 +68,8 @@ def get_bird_data(x_lng, x_lat, x_days, x_dist):
         print ('Error: ', e)
 
     for i in data:
-        year, month, day = (int(x) for x in str(i.get('obsDt')[:10]).split('-'))
+        year, month, day = (int(x)
+                            for x in str(i.get('obsDt')[:10]).split('-'))
         dow = calendar.weekday(year, month, day)
         new_date = str(month) + '/' + str(day) + '/' + str(year)
         bird_list.append([str(i.get('comName')), str(i.get('howMany')), new_date +
@@ -83,7 +85,8 @@ def get_bird_data(x_lng, x_lat, x_days, x_dist):
         return w
 
     def html_wrap_bird(bird, qty, day):
-        w = "<tr><td>" + bird + "  (" + qty + ")</td><td align=\"left\">" + day + "</td></tr>"
+        w = "<tr><td>" + bird + \
+            "  (" + qty + ")</td><td align=\"left\">" + day + "</td></tr>"
         return w
 
     html_table = "<html><table style=\"font-family:arial\"  width=\"875\">"
@@ -94,7 +97,8 @@ def get_bird_data(x_lng, x_lat, x_days, x_dist):
         html_row = html_wrap_location(l)
 
         for b in birds:
-            html_row = html_row + html_wrap_bird(str(b[0]).strip(), str(b[1]), str(b[2]))
+            html_row = html_row + \
+                html_wrap_bird(str(b[0]).strip(), str(b[1]), str(b[2]))
 
         html_table = html_table + html_row + empty_row + empty_row
 
@@ -111,7 +115,8 @@ def lambda_handler(event, context):
     region = event["region"]
     send_to = event["recipients"]
 
-    subject_line = 'Bird Sightings ' + region + ' Last ' + days + ' Day(s) ' + dist + ' Mile Radius'
+    subject_line = 'Bird Sightings ' + region + ' Last ' + \
+        days + ' Day(s) ' + dist + ' Mile Radius'
 
     bird_msg = get_bird_data(lng, lat, days, dist)
-    send_email("Bird Nerd <birder@gmail.com>", send_to, subject_line, bird_msg)
+    send_email("Bird Nerd <birder@email.com>", send_to, subject_line, bird_msg)
