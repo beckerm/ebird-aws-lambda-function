@@ -1,3 +1,3 @@
 # ebird-aws-lambda-function
 
-Bird observations report using eBird API and always free AWS services (Lambda and SES)
+Bird observations report using eBird API and AWS always free tier (Lambda and SES)
